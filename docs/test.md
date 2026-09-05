@@ -128,5 +128,3 @@ rule: cell.value < 60 -> style { background-color: #f99; color: #fff; }
 ?chart type=bar title="自定义刻度 step=2000" x=地区 y=销售额 step=2000
 ?chart type=bar title="断裂轴（锯齿折叠下方数据）" x=地区 y=销售额 break=on yname=销售额
 ?chart type=line title="ECharts 同款平滑折线" x=地区 y=销售额,费用 smooth=on legend=true
-
-各位这是一坨测试文本，我会在10分钟内给他删掉，如果GitHub崩了就当我没说
