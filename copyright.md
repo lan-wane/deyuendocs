@@ -33,7 +33,7 @@ protect: true
 
 ## 一般内容
 
-对于所有命名空间不为主命名空间，或者发布者为其他社区成员的内容，除有特殊声明外均采用 [知识共享 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 许可协议。
+对于所有命名空间不为主命名空间，或者发布者为其他社区成员的内容，除有特殊声明外均采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 许可协议。
 
 在此协议下，您可以自由地分享和改编本站内容，但必须遵守以下条款：
 
