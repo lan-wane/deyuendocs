@@ -1,0 +1,9 @@
+{
+    "name": "guide",
+    "label": "说明文档",
+    "description": "DeSource Site 使用指南、Wiki 编辑教程与常见问题",
+    "icon": "fas fa-compass",
+    "order": 5,
+    "hidden": false,
+    "extensions": [".md"]
+}

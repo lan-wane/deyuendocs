@@ -1,0 +1,9 @@
+{
+    "name": "reference",
+    "label": "参考文档",
+    "description": "DeSource 参考资料与说明文档",
+    "icon": "fas fa-folder-open",
+    "order": 3,
+    "hidden": false,
+    "extensions": [".md"]
+}

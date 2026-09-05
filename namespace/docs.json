@@ -1,0 +1,9 @@
+{
+    "name": "docs",
+    "label": "技术文档",
+    "description": "DeSource 技术文档与开发指南",
+    "icon": "fas fa-book",
+    "order": 1,
+    "hidden": false,
+    "extensions": [".md"]
+}

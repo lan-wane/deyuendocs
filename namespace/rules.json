@@ -1,0 +1,9 @@
+{
+    "name": "rules",
+    "label": "社区规则",
+    "description": "DeSource 社区规则与公约",
+    "icon": "fas fa-gavel",
+    "order": 2,
+    "hidden": false,
+    "extensions": [".md"]
+}

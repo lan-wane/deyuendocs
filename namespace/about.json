@@ -1,0 +1,9 @@
+{
+    "name": "about",
+    "label": "关于本站",
+    "description": "关于 DeSource Wiki 项目与贡献者",
+    "icon": "fas fa-info-circle",
+    "order": 4,
+    "hidden": false,
+    "extensions": [".md"]
+}
