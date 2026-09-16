@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wiki - DeSource Wiki · v1.7.0</title>
+    <link rel="icon" href="../assets/image/logo.png" sizes="16x16" type="image/x-icon" />
+    <link rel="stylesheet" href="../src/css/dark.css" />
+    <link rel="stylesheet" href="../src/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.loli.net" />
+    <link href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../src/css/deyuen.css" />
+    <script src="../src/js/storage.js"></script>
+    <script src="../src/js/bootstrap.js"></script>
+    <script src="../src/js/i18n.js" defer></script>
+    <style>
+        /* ===== 页面基础 ===== */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--text-color);
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        /* ===== 左侧竖条导航栏 ===== */
+        .left-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 55px;
+            height: 100vh;
+            background: var(--page-bg-color);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px 0 12px;
+            gap: 20px;
+            z-index: 999;
+            box-sizing: border-box;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .left-sidebar a,
+        .left-sidebar button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.15rem;
+            transition: color 0.2s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .left-sidebar a:hover,
+        .left-sidebar button:hover {
+            color: var(--deyuen-gold);
+            background: transparent;
+        }
+        .left-sidebar a:active,
+        .left-sidebar button:active {
+            transform: scale(0.92);
+        }
+        .left-sidebar a.active {
+            color: var(--deyuen-gold);
+        }
+
+        @media (min-width: 991px) {
+            body {
+                padding-left: 55px;
+            }
+            .mobile-top-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 990px) {
+            .left-sidebar {
+                display: none;
+            }
+            body {
+                padding-left: 0;
+            }
+            .mobile-top-bar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 52px;
+                background: var(--page-bg-color);
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 0 12px;
+                gap: 8px;
+                z-index: 998;
+                backdrop-filter: blur(8px);
+                background: color-mix(in srgb, var(--page-bg-color) 90%, transparent);
+                box-sizing: border-box;
+
+                /* ===== 滑动支持（按钮尺寸不变） ===== */
+                overflow-x: auto;
+                overflow-y: hidden;
+                scrollbar-width: none;            /* Firefox 隐藏滚动条 */
+                -webkit-overflow-scrolling: touch; /* iOS 惯性滚动 */
+                flex-wrap: nowrap;               /* 强制一行，不换行 */
+            }
+
+            /* 隐藏滚动条（Chrome/Safari/Edge） */
+            .mobile-top-bar::-webkit-scrollbar {
+                display: none;
+                width: 0;
+                height: 0;
+            }
+
+            .mobile-top-bar a,
+            .mobile-top-bar button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;                     /* 尺寸不变 */
+                height: 40px;                   /* 尺寸不变 */
+                border-radius: 12px;
+                color: var(--text-color);
+                text-decoration: none;
+                font-size: 1.15rem;             /* 字号不变 */
+                transition: color 0.2s ease;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                flex-shrink: 0;                  /* 不压缩，保持尺寸 */
+            }
+            .mobile-top-bar a:hover,
+            .mobile-top-bar button:hover {
+                color: var(--deyuen-gold);
+            }
+            .mobile-top-bar a:active {
+                transform: scale(0.92);
+            }
+            .mobile-top-bar a.active {
+                color: var(--deyuen-gold);
+            }
+            .main-content {
+                padding-top: 52px;
+            }
+
+            /* ===== 极小屏：不缩小按钮，只保留滑动 ===== */
+            @media (max-width: 420px) {
+                .mobile-top-bar {
+                    padding: 0 10px;
+                    gap: 6px;
+                }
+                /* 按钮尺寸保持不变，不缩小 */
+            }
+
+            @media (max-width: 360px) {
+                .mobile-top-bar {
+                    padding: 0 8px;
+                    gap: 4px;
+                }
+                /* 按钮尺寸保持不变，不缩小 */
+            }
+        }
+
+        @media (min-width: 991px) {
+            .main-content {
+                padding-top: 20px;
+            }
+        }
+
+        .main-content {
+            padding: 20px 40px;
+            color: var(--text-color);
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .main-content h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 300;
+            font-size: 2rem;
+        }
+
+        /* ===== 搜索模态框 ===== */
+        .search-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        .search-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .search-modal {
+            background: rgba(20, 20, 28, 0.40);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 0 0 0 0;
+            width: 75%;
+            max-width: 900px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            font-family: "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif;
+            margin-top: 60px;
+            pointer-events: auto;
+            opacity: 0;
+            transform: translateY(-20px) scale(0.98);
+        }
+        .search-modal-overlay.open .search-modal {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            position: relative;
+        }
+        .search-input-wrapper .input-icon {
+            color: var(--text-placeholder);
+            font-size: 1.3rem;
+            padding: 18px 0 18px 20px;
+            margin-right: 14px;
+            flex-shrink: 0;
+            transition: color 0.25s;
+            line-height: 1;
+        }
+        .search-input-wrapper .input-group {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+        }
+        .search-modal input[type="text"] {
+            width: 100%;
+            padding: 18px 20px 18px 0;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            background: transparent;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .search-modal .placeholder-text {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: none;
+            padding-top: 18px;
+            color: var(--text-placeholder);
+            font-size: 1.1rem;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+        .search-input-wrapper:focus-within .input-icon {
+            color: var(--deyuen-gold);
+        }
+        .search-modal input[type="text"]:focus~.placeholder-text,
+        .search-modal input[type="text"]:not(:placeholder-shown)~.placeholder-text {
+            opacity: 0;
+        }
+
+        .search-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        .search-modal .big-icon {
+            font-size: 4.5rem;
+            color: var(--deyuen-gold);
+            margin-top: 36px;
+            margin-bottom: 32px;
+        }
+        .search-modal .search-title {
+            font-family: "微软雅黑UI", "Microsoft YaHei UI", "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-color);
+            margin-bottom: 18px;
+        }
+        .search-modal .search-subtitle {
+            font-family: "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-placeholder);
+            margin-bottom: 36px;
+        }
+
+        .search-hint-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: transparent;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            min-height: 36px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0 0 10px 10px;
+            margin-top: 0;
+        }
+        .search-hint-bar code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.8rem;
+            color: var(--deyuen-gold);
+        }
+        .search-hint-left {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .search-hint-right {
+            flex-shrink: 0;
+            text-align: right;
+            font-size: 0.7rem;
+            color: var(--text-placeholder);
+            margin-left: 16px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 990px) {
+            .search-modal-overlay {
+                padding: 16px 16px 0 16px;
+            }
+            .search-modal {
+                width: 96%;
+                margin-top: 12px;
+            }
+            .search-modal input[type="text"] {
+                font-size: 1rem;
+                padding: 16px 16px 16px 0;
+                border-radius: 10px 10px 0 0;
+            }
+            .search-input-wrapper .input-icon {
+                font-size: 1.1rem;
+                padding: 16px 0 16px 14px;
+                margin-right: 10px;
+            }
+            .search-modal .placeholder-text {
+                font-size: 0.9rem;
+                padding-top: 16px;
+            }
+            .search-hint-bar {
+                font-size: 0.7rem;
+                padding: 8px 12px;
+                flex-wrap: wrap;
+                gap: 4px 0;
+                min-height: 32px;
+            }
+            .search-hint-right {
+                font-size: 0.6rem;
+                margin-left: 8px;
+            }
+            .search-modal .big-icon {
+                font-size: 3.5rem;
+                margin-top: 28px;
+                margin-bottom: 24px;
+            }
+            .search-modal .search-title {
+                font-size: 1.2rem;
+                margin-bottom: 14px;
+            }
+            .search-modal .search-subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 28px;
+            }
+        }
+
+        /* ================================================================
+               新增：菜单模态框（PC 端，左侧边栏汉堡按钮）
+               ================================================================ */
+
+        /* ---- 菜单遮罩（透明，仅用于捕获点击关闭） ---- */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+            /* 默认不拦截点击 */;
+        }
+        .menu-overlay.open {
+            pointer-events: auto;
+            /* 打开时拦截点击，用于点击外部关闭 */;
+        }
+
+        /* ---- 菜单模态框本体 ---- */
+        .menu-modal {
+            position: fixed;
+            left: calc(55px + 14px);
+            /* 左侧边栏宽度 55px + 边距 14px */
+            top: 14px;
+            /* 顶部边距 */
+            min-width: 220px;
+            min-height: 160px;
+            background: rgba(20, 20, 28, 0.40);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            /* 与搜索框一致 */
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.15);
+            padding: 0;
+            transform: scale(0.65);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: 0 0;
+            /* 由 JS 动态覆盖 */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            font-family: "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif;
+        }
+        .menu-overlay.open .menu-modal {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ---- 菜单标题 ---- */
+        .menu-modal .menu-title {
+            font-family: "微软雅黑UI", "Microsoft YaHei UI", "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--text-color);
+            /* 去掉 margin 和 padding 底部，让分割线紧贴 */
+            margin: 0;
+            padding: 16px 16px 16px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06); /* 这是唯一的分割线 */
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        /* logo 容器：不再有自己的边框和边距 */
+        .menu-modal .menu-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px, 0;          /* 去掉内边距 */
+            margin: 0;           /* 去掉外边距 */
+            border-bottom: none; /* 去掉自身边框 */
+            flex-shrink: 0;
+        }
+
+        /* 图片高度可以按需调小（比如 24px） */
+        .menu-modal .menu-logo img {
+            height: 56px;        /* 调小一点更精致 */
+            width: auto;
+            display: block;
+            border-radius: 6px;
+        }
+
+        /* 品牌名称文字 */
+        .menu-modal .menu-logo .brand-name {
+            font-family: "微软雅黑UI", "Microsoft YaHei UI", "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif;
+            font-size: 1.88rem;
+            font-weight: 500;
+            color: var(--text-active);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* 如果你想突出“德源”两个字，可以加个金色高亮 */
+        .menu-modal .menu-logo .brand-name .gold {
+            color: var(--deyuen-gold);
+            font-weight: 600;
+        }
+
+        /* ===== 菜单内容区 ===== */
+        .menu-modal .menu-body {
+            flex: 1;
+            padding: 24px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 16px;
+            align-content: flex-start;
+            overflow-y: auto;
+            min-height: 120px;
+        }
+
+        /* ===== 每个组 ===== */
+        .menu-modal .menu-group {
+            flex: 0 0 calc(25% - 16px);
+            min-width: 130px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;                    /* ① 拉大 item 间距（原 3px → 8px） */
+        }
+
+        /* ===== 组标题 ===== */
+        .menu-modal .group-title {
+            font-family: "微软雅黑UI", "Microsoft YaHei UI", "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif;
+            font-size: 0.9rem;            /* ② 标题字号放大（原 0.8rem → 0.9rem） */
+            font-weight: 600;
+            color: var(--deyuen-gold);
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
+            padding-bottom: 4px;
+            /* border-bottom: 1px solid rgba(255, 255, 255, 0.08); */  /* ③ 去掉分割线 */
+            flex-shrink: 0;
+        }
+
+        /* ===== 菜单项（链接 + 纯文本） ===== */
+        .menu-modal .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;           /* ④ item 字号放大（原 0.85rem → 0.95rem） */
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 2px 0;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.8;             /* ⑤ 行高拉大（原 1.5 → 1.8） */
+        }
+
+        /* 纯文本（非链接） */
+        .menu-modal .menu-item.plain {
+            color: var(--text-placeholder);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* 链接悬停效果 */
+        .menu-modal .menu-item:not(.plain):hover {
+            color: var(--deyuen-gold);
+        }
+
+        /* 图标样式 */
+        .menu-modal .menu-item i {
+            font-size: 0.75rem;
+            width: 1.2em;
+            text-align: center;
+            color: var(--deyuen-gold);
+            flex-shrink: 0;
+        }
+
+        /* ---- 移动端适配：菜单模态框（断点 960px，模态框风格） ---- */
+        @media (max-width: 990px) {
+            /* 1. 遮罩层 */
+            .menu-overlay {
+                display: block !important;
+                pointer-events: none;
+            }
+            .menu-overlay.open {
+                pointer-events: auto;
+            }
+
+            /* 2. 模态框本体：颜色、毛玻璃、边框、阴影与PC完全一致 */
+            .menu-modal {
+                left: 12px !important;
+                right: 12px !important;
+                top: 56px !important;
+                bottom: 12px !important;
+                width: auto !important;
+                height: auto !important;
+                max-height: calc(100vh - 80px) !important;
+                border-radius: 12px !important;
+                padding: 0 !important;
+                transform-origin: top center !important; /* 仅改变展开方向，不影响颜色 */
+                /* === 以下属性与PC端完全一致 === */
+                background: rgba(20, 20, 28, 0.40) !important;  /* 与PC一致 */
+                backdrop-filter: blur(12px) !important;         /* 与PC一致 */
+                -webkit-backdrop-filter: blur(12px) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.15) !important; /* 与PC一致 */
+                font-family: "等线 Light", "DengXian Light", "Microsoft YaHei", sans-serif; /* 同步 */
+            }
+
+            /* 3. 标题区：仅调整内边距和字号，颜色、边框保持 */
+            .menu-modal .menu-title {
+                padding: 12px 16px !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important; /* 与PC一致 */
+                font-size: 1.15rem; /* 若需微调，但颜色保留 */
+            }
+            .menu-modal .menu-logo img {
+                height: 40px !important;
+            }
+            .menu-modal .menu-logo .brand-name {
+                font-size: 1.2rem !important;
+                color: var(--text-active); /* 与PC相同变量 */
+            }
+
+            /* 4. 内容区：间距与PC完全一致 */
+            .menu-modal .menu-body {
+                padding: 16px !important;
+                gap: 20px 16px !important;   /* 与PC完全一致，组间距绝对不变 */
+                min-height: auto !important;
+                max-height: calc(100vh - 140px) !important;
+                overflow-y: auto;
+            }
+
+            /* 5. 每个组：宽度自适应，内部间距保持PC的6px */
+            .menu-modal .menu-group {
+                flex: 1 1 calc(33.333% - 16px) !important;
+                min-width: 100px !important;
+                gap: 6px !important;          /* 与PC完全一致 */
+            }
+
+            /* 6. 组标题：颜色与PC一致，无分割线 */
+            .menu-modal .group-title {
+                font-size: 0.9rem !important;  /* 与PC一致（原来PC是0.9rem） */
+                font-weight: 600 !important;
+                color: var(--deyuen-gold) !important;
+                letter-spacing: 0.8px !important;
+                margin-bottom: 4px !important;
+                padding-bottom: 4px !important;
+                border-bottom: none !important;
+            }
+
+            /* 7. 菜单项：颜色、行高与PC一致，仅字号微调（可选） */
+            .menu-modal .menu-item {
+                font-size: 0.95rem !important;  /* 与PC一致 */
+                color: var(--text-secondary) !important;
+                line-height: 1.8 !important;    /* 与PC一致 */
+                padding: 2px 0 !important;
+                gap: 6px !important;
+                transition: color 0.2s ease !important;
+            }
+            .menu-modal .menu-item i {
+                font-size: 0.75rem !important;
+                width: 1.2em !important;
+                color: var(--deyuen-gold) !important;
+            }
+            .menu-modal .menu-item:not(.plain):hover {
+                color: var(--deyuen-gold) !important;
+            }
+        }
+
+        /* ---- 汉堡按钮图标切换过渡 ---- */
+        .left-sidebar #sidebarToggle i {
+            transition: transform 0.3s ease;
+        }
+        .left-sidebar #sidebarToggle i.fa-xmark {
+            transform: rotate(90deg);
+            /* 叉号轻微旋转，增加动感 */;
+        }
+
+        /* ---- 菜单模态框入场增强：多一层微光 ---- */
+        .menu-overlay.open .menu-modal {
+            animation: menuGlow 0.6s ease-out 0.1s both;
+        }
+        @keyframes menuGlow {
+            0% {
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.1);
+            }
+            100% {
+                box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        /* ===== Hero 区域（fixed 居中） ===== */
+        .docs-hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 140px 40px 80px;
+            min-height: calc(100vh - 72px);
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .docs-hero-container {
+            max-width: 820px;
+            width: 100%;
+            text-align: center;
+            pointer-events: auto;               /* 让内容可点击（链接等） */
+        }
+
+        .docs-hero-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.06em;
+            margin-bottom: 28px;
+            line-height: 1.3;
+        }
+        .docs-hero-title .highlight {
+            color: var(--deyuen-gold);
+        }
+
+        .docs-hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 2.0;
+            margin: 0 auto 36px auto;
+            max-width: 720px;
+        }
+
+        .docs-hero-principles {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 16px 24px;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .docs-hero-principles span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+        }
+        .docs-hero-principles .tag {
+            color: var(--deyuen-gold);
+            font-weight: 500;
+        }
+
+        .docs-hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px 16px;
+            margin-bottom: 6px;
+        }
+        .docs-hero-cta .hint {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        .docs-hero-cta .link {
+            color: var(--deyuen-gold);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(201,168,76,0.25);
+            transition: border-color 0.2s;
+            font-weight: 500;
+            padding: 2px 0;
+        }
+        .docs-hero-cta .link:hover {
+            border-color: var(--deyuen-gold);
+        }
+
+        .docs-hero-invite {
+            font-size: 0.95rem;
+            color: var(--text-placeholder);
+            margin-top: 20px;
+            letter-spacing: 0.04em;
+            padding-top: 8px;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .docs-hero {
+                padding: 20px;
+            }
+            .docs-hero-title {
+                font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+                margin-bottom: 20px;
+            }
+            .docs-hero-desc {
+                font-size: 0.95rem;
+                line-height: 1.8;
+                margin-bottom: 24px;
+            }
+            .docs-hero-principles {
+                gap: 10px 16px;
+                padding: 14px 0;
+                margin-bottom: 28px;
+            }
+            .docs-hero-principles span {
+                font-size: 0.8rem;
+            }
+            .docs-hero-cta .hint {
+                font-size: 0.85rem;
+            }
+            .docs-hero-invite {
+                font-size: 0.85rem;
+                margin-top: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 导航栏 ===== -->
+    <nav class="left-sidebar" id="leftSidebar">
+        <!-- 1. 首页 -->
+        <a href="/wiki" class="sidebar-item active" title="首页"><i class="fas fa-home"></i></a>
+
+        <!-- 2. 搜索 -->
+        <a href="#" class="sidebar-item search-trigger" title="搜索"><i class="fas fa-search"></i></a>
+
+        <!-- 3. 菜单（汉堡） -->
+        <button class="sidebar-item" id="sidebarToggle" title="菜单">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- 4. 查看源代码 -->
+        <a href="?action=code" class="sidebar-item" title="查看源代码"><i class="fas fa-code"></i></a>
+
+        <!-- 5. 查看历史 -->
+        <a href="#" class="sidebar-item" title="查看历史"><i class="fas fa-history"></i></a>
+
+        <!-- 6. 其他 -->
+        <a href="#" class="sidebar-item" title="更多"><i class="fas fa-ellipsis-h"></i></a>
+    </nav>
+
+    <nav class="mobile-top-bar" id="mobileTopBar">
+        <!-- 1. 首页 -->
+        <a href="/" class="mobile-item active" title="首页"><i class="fas fa-home"></i></a>
+
+        <!-- 2. 搜索 -->
+        <a href="#" class="mobile-item search-trigger" title="搜索"><i class="fas fa-search"></i></a>
+
+        <!-- 3. 菜单（汉堡） -->
+        <button class="mobile-item" id="mobileMenuToggle" title="菜单">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- 4. 查看源代码 -->
+        <a href="?action=code" class="mobile-item" title="查看源代码"><i class="fas fa-code"></i></a>
+
+        <!-- 5. 查看历史 -->
+        <a href="#" class="mobile-item" title="查看历史"><i class="fas fa-history"></i></a>
+
+        <!-- 6. 其他 -->
+        <a href="#" class="mobile-item" title="更多"><i class="fas fa-ellipsis-h"></i></a>
+    </nav>
+
+    <!-- ===== 搜索模态框 ===== -->
+    <div class="search-modal-overlay" id="searchModal">
+        <div class="search-modal" id="searchModalBox">
+            <div class="search-input-wrapper">
+                <i class="fas fa-search input-icon"></i>
+                <div class="input-group">
+                    <input type="text" id="searchInput" />
+                    <span class="placeholder-text" id="placeholderText">搜索 DeSource Wiki 内容</span>
+                </div>
+            </div>
+            <div class="search-divider"></div>
+            <i class="fas fa-search big-icon"></i>
+            <div class="search-title" id="searchModalTitle">搜索 DeSource Wiki 内容</div>
+            <div class="search-subtitle">请输入要搜索的内容</div>
+            <div class="search-hint-bar" id="searchHintBar">
+                <div class="search-hint-left" id="hintLeft">输入 <code>h^</code> 以搜索标题</div>
+                <div class="search-hint-right">搜索 Enter / 换行　导航 ↑ / ↓　退出 Esc</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 新增：菜单模态框（PC 端） ===== -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-modal" id="menuModal">
+            <div class="menu-title">
+                <div class="menu-logo">
+                    <a href="/">
+                        <img src="../assets/image/logo.png" alt="德源社区 Logo" />
+                    </a>
+                    <span class="brand-name">DeSource Wiki</span>
+                </div>
+            </div>
+            <div class="menu-body" id="menuBody">
+
+                <!-- 导航 -->
+                <div class="menu-group">
+                    <div class="group-title">导航</div>
+                    <a class="menu-item" href="/"><i class="fas fa-home"></i> 首页</a>
+                    <a class="menu-item" href="/wiki"><i class="fab fa-wikipedia-w"></i> WiKi首页</a>
+                    <a class="menu-item" href="/wiki/upload"><i class="fas fa-upload"></i> 提交文档</a>
+                    <a class="menu-item" href="#"><i class="fas fa-file-alt"></i> 其他文档</a>
+                </div>
+
+                <!-- 工具 -->
+                <div class="menu-group">
+                    <div class="group-title">工具</div>
+                    <a class="menu-item" href="https://deyuenbug.pages.dev">追踪中心</a>
+                    <a class="menu-item" href="/wiki/random">随机页面</a>
+                    <a class="menu-item" href="#">搜索页面</a>
+                    <a class="menu-item" href="#">所有页面</a>
+                    <a class="menu-item" href="#">命名空间</a>
+                </div>
+
+                <!-- 说明 -->
+                <div class="menu-group">
+                    <div class="group-title">说明文档</div>
+                    <a class="menu-item" href="#">抽奖箱</a>
+                    <a class="menu-item" href="#">称号相关</a>
+                    <a class="menu-item" href="#">积分相关</a>
+                    <a class="menu-item" href="#">其他说明</a>
+                </div>
+
+                <!-- 规则 -->
+                <div class="menu-group">
+                    <div class="group-title">规则文档</div>
+                    <a class="menu-item" href="/wiki/rules:general">社区总则</a>
+                    <a class="menu-item" href="#">成员公约</a>
+                    <a class="menu-item" href="#">管理规范</a>
+                    <a class="menu-item" href="#">社区守则</a>
+                </div>
+
+                <!-- 关于 -->
+                <div class="menu-group">
+                    <div class="group-title">关于</div>
+                    <a class="menu-item" href="#">编辑教程</a>
+                    <a class="menu-item" href="#">关于本站</a>
+                    <a class="menu-item" href="#">关于我们</a>
+                </div>
+
+                <!-- 其他 -->
+                <div class="menu-group">
+                    <div class="group-title">其他</div>
+                    <a class="menu-item" href="#">友情链接</a>
+                    <a class="menu-item" href="#">成员文档</a>
+                    <a class="menu-item" href="#">更新日志</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 页脚 ===== -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <img src="../assets/image/logo.png" alt="德源社区 Logo" class="footer-logo" />
+                <span class="footer-name">德源社区</span>
+            </div>
+            <div class="footer-social">
+                <span class="footer-social-label">关注我们</span>
+                <a class="footer-social-btn" href="https://www.xiaohongshu.com/user/profile/5f697f1700000000010016e0" target="_blank" rel="noopener" aria-label="小红书">
+                    <img src="../assets/image/xiaohongshu.svg" alt="小红书" class="footer-icon-svg" />
+                </a>
+                <a class="footer-social-btn" href="https://github.com/lan-wane" target="_blank" rel="noopener" aria-label="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a class="footer-social-btn" href="mailto:deyuen@yeah.net" aria-label="邮箱">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        <nav class="footer-nav">
+            <div class="footer-nav-col"><a data-i18n="nav.home" href="/">社区首页</a></div>
+            <div class="footer-nav-col">
+                <a data-i18n="nav.news" href="../src/html/news/8.3.html">德源新闻</a>
+                <div class="footer-nav-sub">
+                    <a data-i18n="footer.newsIndex" href="../src/html/news/8.3.html">新闻首页</a>
+                    <a data-i18n="footer.changeLog" href="#">更新日志</a>
+                    <a data-i18n="footer.other" href="#">其他内容</a>
+                </div>
+            </div>
+            <div class="footer-nav-col">
+                <a data-i18n="nav.docs" href="/wiki">Wiki</a>
+                <div class="footer-nav-sub">
+                    
+                    <a data-i18n="nav.rules" href="#">社区守则</a>
+                    <a data-i18n="nav.covenant" href="#">成员公约</a>
+                    <a data-i18n="nav.elsedocs" href="#">其他文档</a>
+                </div>
+            </div>
+            <div class="footer-nav-col">
+                <a data-i18n="nav.members" href="../src/html/member.html">社区成员</a>
+                <div class="footer-nav-sub">
+                    <a data-i18n="footer.ops" href="../src/html/news/ops.html">管理团队</a>
+                </div>
+            </div>
+            <div class="footer-nav-col">
+                <a data-i18n="footer.activities" href="../src/html/activity.html">社　区　活　动</a>
+                <div class="footer-nav-sub footer-nav-sub-2col">
+                    <div class="footer-nav-group">
+                        <span class="footer-nav-group-title" data-i18n="nav.mods">模组制作</span>
+                        <a data-i18n="nav.modsRelease" href="#">模组发布</a>
+                        <a data-i18n="nav.modsTutorial" href="#">模组教程</a>
+                        <a data-i18n="nav.modsTools" href="#">开发工具</a>
+                    </div>
+                    <div class="footer-nav-group">
+                        <span class="footer-nav-group-title" data-i18n="nav.interests">兴趣分部</span>
+                        <a data-i18n="nav.seaSports" href="#">海上运动</a>
+                        <a data-i18n="nav.artVoice" href="#">艺术配音</a>
+                        <a data-i18n="nav.gaming" href="#">游戏社区</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-nav-col">
+                <a data-i18n="nav.join" href="javascript:void(0)">加入我们</a>
+                <div class="footer-nav-sub">
+                    <a data-i18n="footer.devsite" href="#">开发部官网</a>
+                </div>
+            </div>
+            <div class="footer-nav-col">
+                <a data-i18n="nav.settings" href="../settings.html">页面设置</a>
+            </div>
+        </nav>
+        <div class="footer-bottom">
+            <p class="footer-credits">
+                <span>群主 <em class="footer-name-em">Tup</em></span>
+                <span>制作 <em class="footer-name-em">LanWan澜湾</em></span>
+                <span>鸣谢 <em class="footer-name-em">末言</em></span>
+            </p>
+            <p class="footer-copy">&copy; 2026 LanWan &amp; DeSource. All rights reserved.</p>
+            <p class="footer-cc" style="text-align:center;font-size:0.85rem;color:var(--text-secondary);margin:8px 0 0;">
+                <span>除非另有声明，本站内容与资料遵循&nbsp;</span>
+                <a href="/wiki/copyright" target="_blank" rel="noopener" style="color:var(--deyuen-gold);text-decoration:none;">知识共享署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)</a>
+                <span>&nbsp;许可协议授权</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===== 脚本 ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ============================================================
+            // 1. 搜索模态框（原有逻辑，保留）
+            // ============================================================
+            var searchModal = document.getElementById('searchModal');
+            var searchTriggers = document.querySelectorAll('.search-trigger');
+            var searchInput = document.getElementById('searchInput');
+            var placeholderText = document.getElementById('placeholderText');
+            var hintLeft = document.getElementById('hintLeft');
+
+            var hints = [
+                '输入 <code>h^</code> 以搜索标题',
+                '键入 <code>:</code> 在特定命名空间检索',
+                '输入 <code>*</code> 以搜索任何内容',
+                '输入 <code>t^</code> 以搜索时间',
+                '输入 <code>d^</code> 以搜索正文',
+                '输入 <code>re^</code> 以使用正则搜索',
+                '输入 <code>#</code> 以搜索标签'
+            ];
+            var isLocked = false;
+
+            function openSearchModal(e) {
+                if (e) e.preventDefault();
+                searchModal.classList.add('open');
+                if (!isLocked) {
+                    var randomIndex = Math.floor(Math.random() * hints.length);
+                    hintLeft.innerHTML = hints[randomIndex];
+                    isLocked = true;
+                }
+                setTimeout(function() {
+                    searchInput.focus();
+                    togglePlaceholder();
+                }, 100);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSearchModal() {
+                searchModal.classList.remove('open');
+                document.body.style.overflow = '';
+                togglePlaceholder();
+                isLocked = false;
+            }
+
+            function togglePlaceholder() {
+                if (searchInput.value.trim() !== '') {
+                    placeholderText.style.opacity = '0';
+                } else {
+                    placeholderText.style.opacity = '1';
+                }
+            }
+
+            searchModal.addEventListener('click', function(e) {
+                if (e.target === searchModal) {
+                    closeSearchModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && searchModal.classList.contains('open')) {
+                    closeSearchModal();
+                    e.preventDefault();
+                }
+            });
+
+            searchInput.addEventListener('input', togglePlaceholder);
+            searchInput.addEventListener('blur', togglePlaceholder);
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    var query = searchInput.value.trim();
+                    if (query) {
+                        console.log('搜索关键词:', query);
+                        closeSearchModal();
+                    } else {
+                        searchInput.focus();
+                    }
+                }
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeSearchModal();
+                }
+            });
+
+            searchTriggers.forEach(function(trigger) {
+                trigger.addEventListener('click', openSearchModal);
+            });
+
+        // ============================================================
+        // 2. 新增：菜单模态框（PC + 移动端统一）
+        // ============================================================
+        var sidebarToggle = document.getElementById('sidebarToggle');
+        var mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        var menuOverlay = document.getElementById('menuOverlay');
+        var menuModal = document.getElementById('menuModal');
+        var menuBody = document.getElementById('menuBody');
+
+        // 菜单是否打开
+        var isMenuOpen = false;
+
+        // ---- 辅助：获取当前可见的汉堡按钮（PC 或移动端） ----
+        function getActiveButton() {
+            // 如果移动端按钮可见（display 不是 none），则使用它，否则使用 PC 按钮
+            if (mobileMenuToggle && window.getComputedStyle(mobileMenuToggle).display !== 'none') {
+                return mobileMenuToggle;
+            }
+            return sidebarToggle;
+        }
+
+        // ---- 打开菜单 ----
+        function openMenu(e) {
+            if (e) e.stopPropagation();
+
+            // 获取当前可见的按钮
+            var activeBtn = getActiveButton();
+            var btnRect = activeBtn.getBoundingClientRect();
+            var modalRect = menuModal.getBoundingClientRect();
+
+            // 计算按钮中心相对于模态框左上角的偏移
+            var originX = btnRect.left + btnRect.width / 2 - modalRect.left;
+            var originY = btnRect.top + btnRect.height / 2 - modalRect.top;
+
+            // 设置 transform-origin 为按钮中心
+            menuModal.style.transformOrigin = originX + 'px ' + originY + 'px';
+
+            // 打开 overlay（触发动画）
+            menuOverlay.classList.add('open');
+            isMenuOpen = true;
+
+            // 切换按钮图标：汉堡 → 叉号（仅在 PC 端按钮上切换，移动端按钮图标单独处理）
+            var icon = activeBtn.querySelector('i');
+            if (icon) {
+                icon.className = 'fas fa-xmark';
+            }
+            // 如果移动端按钮和 PC 按钮不同，且两者都可见（几乎不可能），但为了安全，同步切换另一个按钮的图标
+            var otherBtn = (activeBtn === sidebarToggle) ? mobileMenuToggle : sidebarToggle;
+            if (otherBtn && window.getComputedStyle(otherBtn).display !== 'none') {
+                var otherIcon = otherBtn.querySelector('i');
+                if (otherIcon) {
+                    otherIcon.className = 'fas fa-xmark';
+                }
+            }
+
+            // 禁用页面滚动
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ---- 关闭菜单 ----
+        function closeMenu(e) {
+            if (e) e.stopPropagation();
+
+            menuOverlay.classList.remove('open');
+            isMenuOpen = false;
+
+            // 切换按钮图标：叉号 → 汉堡（恢复所有可见按钮）
+            var activeBtn = getActiveButton();
+            var icon = activeBtn.querySelector('i');
+            if (icon) {
+                icon.className = 'fas fa-bars';
+            }
+            var otherBtn = (activeBtn === sidebarToggle) ? mobileMenuToggle : sidebarToggle;
+            if (otherBtn && window.getComputedStyle(otherBtn).display !== 'none') {
+                var otherIcon = otherBtn.querySelector('i');
+                if (otherIcon) {
+                    otherIcon.className = 'fas fa-bars';
+                }
+            }
+
+            // 恢复滚动
+            document.body.style.overflow = '';
+        }
+
+        // ---- 切换菜单 ----
+        function toggleMenu(e) {
+            if (e) e.stopPropagation();
+            if (isMenuOpen) {
+                closeMenu(e);
+            } else {
+                openMenu(e);
+            }
+        }
+
+        // ---- 点击 PC 汉堡按钮切换 ----
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', toggleMenu);
+        }
+
+        // ---- 点击移动端汉堡按钮切换（移除 PC only 限制） ----
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', toggleMenu);
+        }
+
+        // ---- 点击菜单外部关闭（通过 overlay 捕获） ----
+        menuOverlay.addEventListener('click', function(e) {
+            if (e.target === menuOverlay) {
+                closeMenu(e);
+            }
+        });
+
+        // ---- 按 ESC 关闭菜单 ----
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && isMenuOpen) {
+                closeMenu(e);
+                e.preventDefault();
+            }
+        });
+
+        // ---- 页面 resize 时，如果菜单打开，重新计算 transform-origin ----
+        var resizeTimer = null;
+        window.addEventListener('resize', function() {
+            if (isMenuOpen) {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    var activeBtn = getActiveButton();
+                    var btnRect = activeBtn.getBoundingClientRect();
+                    var modalRect = menuModal.getBoundingClientRect();
+                    var originX = btnRect.left + btnRect.width / 2 - modalRect.left;
+                    var originY = btnRect.top + btnRect.height / 2 - modalRect.top;
+                    menuModal.style.transformOrigin = originX + 'px ' + originY + 'px';
+                }, 80);
+            }
+        });
+
+        // ---- 初始计算 transform-origin（使用可见按钮） ----
+        requestAnimationFrame(function() {
+            var activeBtn = getActiveButton();
+            var btnRect = activeBtn.getBoundingClientRect();
+            var modalRect = menuModal.getBoundingClientRect();
+            var originX = btnRect.left + btnRect.width / 2 - modalRect.left;
+            var originY = btnRect.top + btnRect.height / 2 - modalRect.top;
+            menuModal.style.transformOrigin = originX + 'px ' + originY + 'px';
+        });
+
+        console.log('✅ 菜单模态框已初始化（PC + 移动端）');
+        console.log('💡 点击左侧边栏或顶部导航栏的汉堡按钮均可打开菜单。');
+// ============================================================
+// 3. 查看源代码模式（?action=code）
+// ============================================================
+(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('action') !== 'code') return;
+
+    // ---- 定义返回函数：移除 action=code 参数 ----
+    window.removeActionCode = function() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('action');
+        window.location.href = url.toString();
+    };
+
+    // ---- 保留导航、页脚、模态框（菜单 + 搜索） ----
+    var body = document.body;
+    var keepSelectors = [
+        '.left-sidebar',
+        '.mobile-top-bar',
+        '.footer',
+        '.menu-overlay',
+        '.search-modal-overlay'
+    ];
+    var keepElements = [];
+    keepSelectors.forEach(function(sel) {
+        document.querySelectorAll(sel).forEach(function(el) {
+            keepElements.push(el);
+        });
+    });
+
+    Array.from(body.children).forEach(function(child) {
+        if (keepElements.indexOf(child) === -1) {
+            body.removeChild(child);
+        }
+    });
+
+    body.style.minHeight = '100vh';
+    body.style.display = 'flex';
+    body.style.flexDirection = 'column';
+
+    // ---- 创建提示内容 ----
+    var contentWrapper = document.createElement('div');
+    contentWrapper.style.cssText = `
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 24px;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 640px;
+        margin: 0 auto;
+        text-align: center;
+        min-height: calc(100vh - 72px - 52px);
+    `;
+
+    contentWrapper.innerHTML = `
+        <div style="font-size: 3.6rem; margin-bottom: 24px; color: var(--deyuen-gold);">
+            <i class="fas fa-code"></i>
+        </div>
+        <h1 style="font-family: 'Noto Serif SC', serif; font-size: 1.8rem; font-weight: 600; color: #fff; margin-bottom: 16px;">
+            该页面由 HTML 编写
+        </h1>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.9; margin-bottom: 8px;">
+            无法通过此方式查看源代码。
+        </p>
+        <p style="font-size: 1rem; color: var(--text-secondary); line-height: 2.0; background: rgba(255,255,255,0.04); padding: 18px 24px; border-radius: 8px; border-left: 3px solid var(--deyuen-gold); text-align: left; margin-top: 8px;">
+            <span style="display: block; margin-bottom: 8px;">
+                <i class="fas fa-keyboard" style="color: var(--deyuen-gold); width: 1.8em; text-align: center;"></i>
+                使用快捷键 <kbd style="background: rgba(255,255,255,0.08); padding: 2px 12px; border-radius: 4px; font-family: inherit; color: #fff;">Ctrl+U</kbd> 查看源代码
+            </span>
+            <span style="display: block;">
+                <i class="fas fa-tools" style="color: var(--deyuen-gold); width: 1.8em; text-align: center;"></i>
+                或使用 浏览器开发者工具（<kbd style="background: rgba(255,255,255,0.08); padding: 2px 12px; border-radius: 4px; font-family: inherit; color: #fff;">F12</kbd>）查看
+            </span>
+        </p>
+        <a href="#" onclick="removeActionCode();" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; color: var(--deyuen-gold); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.25); transition: border-color 0.2s; font-size: 0.95rem; padding-bottom: 2px;">
+            <i class="fas fa-arrow-left"></i> 返回
+        </a>
+    `;
+
+    var footer = document.querySelector('.footer');
+    if (footer) {
+        body.insertBefore(contentWrapper, footer);
+    } else {
+        body.appendChild(contentWrapper);
+    }
+})();
+        });
+    </script>
+
+</body>
+</html>
