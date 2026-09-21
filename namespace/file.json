@@ -1,9 +1,9 @@
 {
   "name": "file",
   "label": "文件内容",
-  "description": "DeSource 用户文章内容",
-  "icon": "fas fa-user",
-  "order": 8,
+  "description": "DeSource Wiki 文件",
+  "icon": "fas fa-folder",
+  "order": 7,
   "hidden": false,
   "extensions": [
     ".md"
