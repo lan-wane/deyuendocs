@@ -1,6 +1,6 @@
 {
   "name": "users",
-  "label": "users",
+  "label": "用户文档",
   "description": "DeSource 用户文章内容",
   "icon": "fas fa-user",
   "order": 8,
