@@ -1,11 +1,12 @@
 {
   "name": "file",
-  "label": "file",
-  "description": "",
-  "icon": "fas fa-folder",
-  "order": 99,
+  "label": "文件内容",
+  "description": "DeSource 用户文章内容",
+  "icon": "fas fa-user",
+  "order": 8,
   "hidden": false,
   "extensions": [
     ".md"
-  ]
+  ],
+  "protect": false
 }
