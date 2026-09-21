@@ -8,5 +8,5 @@
   "extensions": [
     ".md"
   ],
-  "protect": false
+  "protect": true
 }
