@@ -1,0 +1,11 @@
+{
+  "name": "users",
+  "label": "users",
+  "description": "",
+  "icon": "fas fa-folder",
+  "order": 99,
+  "hidden": false,
+  "extensions": [
+    ".md"
+  ]
+}
