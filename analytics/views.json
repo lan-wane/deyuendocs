@@ -76,5 +76,11 @@
       "457c390a6f0c452a1b950e7a5bc8e77edcb55e49551a57c242cae50db8b68990",
       "ff7251cc1cea3d19c2c076f1b36a7efea2e4c6041203d1b72c984c34cbb59bcc"
     ]
+  },
+  "guide:dsb-prob": {
+    "count": 1,
+    "ips": [
+      "633b97d7556efc4533cc0dd83437be88df26888f743fd1b334b19ffa4cac329c"
+    ]
   }
 }
