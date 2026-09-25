@@ -1,9 +1,10 @@
 {
   "rules:general": {
-    "count": 2,
+    "count": 3,
     "ips": [
       "dacc8838ed78bf6ce54c1cfa8569b28446c6f69cccf3de097937758576d05df3",
-      "03e80e2890f5f64514597228965399e2a8acc8ddd6055d6a29ecdaa17d25887a"
+      "03e80e2890f5f64514597228965399e2a8acc8ddd6055d6a29ecdaa17d25887a",
+      "e76be04489454f612bff906e4aadb18b747343c3496be5e8978e288759c33c9d"
     ]
   },
   "docs:test": {
