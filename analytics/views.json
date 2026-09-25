@@ -79,10 +79,11 @@
     ]
   },
   "guide:dsb-prob": {
-    "count": 2,
+    "count": 3,
     "ips": [
       "633b97d7556efc4533cc0dd83437be88df26888f743fd1b334b19ffa4cac329c",
-      "dacc8838ed78bf6ce54c1cfa8569b28446c6f69cccf3de097937758576d05df3"
+      "dacc8838ed78bf6ce54c1cfa8569b28446c6f69cccf3de097937758576d05df3",
+      "e76be04489454f612bff906e4aadb18b747343c3496be5e8978e288759c33c9d"
     ]
   },
   "users@SM:index": {
