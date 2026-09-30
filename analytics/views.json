@@ -91,13 +91,14 @@
     ]
   },
   "guide:dsb-prob": {
-    "count": 5,
+    "count": 6,
     "ips": [
       "633b97d7556efc4533cc0dd83437be88df26888f743fd1b334b19ffa4cac329c",
       "dacc8838ed78bf6ce54c1cfa8569b28446c6f69cccf3de097937758576d05df3",
       "e76be04489454f612bff906e4aadb18b747343c3496be5e8978e288759c33c9d",
       "8767878b3bb1365c8bb79f92f0ae278d5b9715a1ac0715a5724ac3465edbb5b7",
-      "73114e90545c09ab8efeff971c78f92cf1093bf1adde33ece8be14b9b6d58413"
+      "73114e90545c09ab8efeff971c78f92cf1093bf1adde33ece8be14b9b6d58413",
+      "25151e20f2cf8ba118658fcf8e9edfbf33a4f1b29c5a6610e75b34c7e96a3beb"
     ]
   },
   "users@SM:index": {
