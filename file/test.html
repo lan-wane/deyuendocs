@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI Design: Sans-serif Font</title>
+
+<!-- ===== 字体 CDN · 国内可访问 ===== -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.3.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@lobehub/webfont-harmony-sans-sc@1.0.0/css/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/misans-webfont/misans-style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@5.1.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sans@5.1.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/lato@5.1.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5.1.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@5.1.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-sans@5.1.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/work-sans@5.1.0/index.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/dm-sans@5.1.0/index.min.css">
+
+<style>
+/* ===== 黑白极简设计令牌 ===== */
+:root {
+  --bg-canvas: #0a0a0a;
+  --bg-surface-1: #111111;
+  --bg-surface-2: #161616;
+  --bg-surface-3: #1c1c1c;
+  --bg-elevated: #222222;
+  --border-hairline: #2a2a2a;
+  --border-strong: #3a3a3a;
+  --text-primary: #f0f0f0;
+  --text-secondary: #b0b0b0;
+  --text-tertiary: #777777;
+  --text-quaternary: #555555;
+  --accent: #ffffff;
+  --accent-hover: #cccccc;
+  --accent-focus: #999999;
+  --on-accent: #000000;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.6);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.7);
+  --sp-xxs: 4px; --sp-xs: 8px; --sp-sm: 12px; --sp-md: 16px;
+  --sp-lg: 24px; --sp-xl: 32px; --sp-xxl: 48px;
+  --r-xs: 4px; --r-sm: 6px; --r-md: 8px; --r-lg: 12px;
+  --r-xl: 16px; --r-pill: 9999px;
+  --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --sample-size: 28px;
+  --sample-lh: 1.6;
+}
+[data-theme="light"] {
+  --bg-canvas: #ffffff;
+  --bg-surface-1: #fafafa;
+  --bg-surface-2: #f2f2f2;
+  --bg-surface-3: #e8e8e8;
+  --bg-elevated: #ffffff;
+  --border-hairline: #e0e0e0;
+  --border-strong: #c0c0c0;
+  --text-primary: #111111;
+  --text-secondary: #444444;
+  --text-tertiary: #888888;
+  --text-quaternary: #aaaaaa;
+  --accent: #000000;
+  --accent-hover: #333333;
+  --accent-focus: #555555;
+  --on-accent: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+body {
+  font-family: var(--font-system);
+  font-size: 16px; line-height: 1.5; letter-spacing: -0.02em;
+  color: var(--text-primary); background-color: var(--bg-canvas);
+  min-height: 100vh;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* ===== 顶部栏 ===== */
+.topbar {
+  position: sticky; top: 0; z-index: 50; height: 52px;
+  display: flex; align-items: center;
+  background-color: color-mix(in srgb, var(--bg-canvas) 82%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border-hairline);
+}
+.topbar-inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 var(--sp-lg); width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-brand { display: flex; align-items: center; gap: var(--sp-xs); }
+.topbar-logo {
+  width: 22px; height: 22px;
+  background: var(--accent);
+  border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--on-accent);
+}
+.topbar-title { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.topbar-actions { display: flex; align-items: center; gap: var(--sp-xs); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px; font-family: inherit;
+  font-size: 13px; font-weight: 500; line-height: 1; letter-spacing: -0.01em;
+  padding: 7px 14px; border-radius: var(--r-md);
+  border: none; cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+.btn:focus-visible { outline: 2px solid var(--accent-focus); outline-offset: 2px; }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-ghost {
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--border-hairline);
+}
+.btn-ghost:hover { background: var(--bg-surface-1); border-color: var(--border-strong); color: var(--text-primary); }
+.btn-icon { padding: 7px; width: 34px; height: 34px; }
+
+.page { max-width: 1280px; margin: 0 auto; padding: 0 var(--sp-lg); }
+
+/* ===== 控制面板 ===== */
+.control-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp-md); padding: var(--sp-md) var(--sp-lg);
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-lg);
+  margin: var(--sp-lg) 0;
+  box-shadow: var(--shadow-sm);
+}
+.control-group { display: flex; align-items: center; gap: var(--sp-sm); }
+.control-label {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.03em;
+  text-transform: uppercase; color: var(--text-tertiary); white-space: nowrap;
+}
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; min-width: 80px; height: 4px;
+  background: var(--border-hairline); border-radius: var(--r-pill);
+  outline: none; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--text-primary); border: 2px solid var(--bg-canvas);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3); cursor: grab;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--text-primary); border: 2px solid var(--bg-canvas); cursor: grab;
+}
+.size-value {
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 13px; font-weight: 500; color: var(--text-primary);
+  min-width: 44px; text-align: right; font-variant-numeric: tabular-nums;
+}
+
+/* ===== 实时预览区 ===== */
+.preview-section {
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-lg);
+  padding: var(--sp-xl);
+  margin-bottom: var(--sp-lg);
+  box-shadow: var(--shadow-sm);
+}
+.preview-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--sp-md);
+  flex-wrap: wrap; gap: var(--sp-sm);
+}
+.preview-title {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.03em;
+  text-transform: uppercase; color: var(--text-tertiary);
+}
+.preview-current {
+  font-size: 13px; font-weight: 500; color: var(--text-primary);
+}
+.preview-text {
+  font-size: var(--sample-size);
+  line-height: var(--sample-lh);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  transition: font-family 0.15s ease, font-size 0.15s ease;
+  word-break: break-word;
+  /* 锁定两行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(var(--sample-size) * var(--sample-lh) * 2);
+}
+
+/* ===== 字体选择按钮 ===== */
+.font-selector {
+  display: flex; flex-wrap: wrap; gap: var(--sp-xs);
+  margin-bottom: var(--sp-lg);
+}
+.font-chip {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 7px 14px;
+  border-radius: var(--r-pill);
+  background: var(--bg-surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-hairline);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+.font-chip:hover {
+  background: var(--bg-surface-3);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+.font-chip.is-active {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+.font-chip.is-unavailable {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(0.5);
+}
+
+/* ===== 字体卡片网格 ===== */
+.font-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-md); margin-bottom: var(--sp-xxl); }
+
+.font-card {
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-lg);
+  padding: var(--sp-lg);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.35s ease, border-color 0.3s ease, opacity 0.3s ease;
+  overflow: hidden; position: relative;
+}
+.font-card.is-unavailable { opacity: 0.55; filter: grayscale(0.5); }
+.font-card.is-unavailable .card-body,
+.font-card.is-unavailable .card-tabs { display: none; }
+
+.card-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--sp-md); margin-bottom: var(--sp-md);
+  padding-bottom: var(--sp-md);
+  border-bottom: 1px solid var(--border-hairline);
+  flex-wrap: wrap;
+}
+.font-info { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 200px; }
+.font-name { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); }
+.font-desc { font-size: 12px; color: var(--text-tertiary); letter-spacing: 0; }
+.card-actions { display: flex; align-items: center; gap: var(--sp-xs); flex-wrap: wrap; }
+
+.weight-select {
+  font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: -0.01em;
+  padding: 6px 26px 6px 10px;
+  background: var(--bg-surface-2); color: var(--text-primary);
+  border: 1px solid var(--border-hairline); border-radius: var(--r-md);
+  cursor: pointer; outline: none;
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat; background-position: right 8px center;
+}
+.weight-select:hover { border-color: var(--border-strong); }
+.weight-select:focus { border-color: var(--accent); }
+
+.font-tag {
+  display: inline-flex; align-items: center;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.04em;
+  text-transform: uppercase; padding: 3px 8px;
+  border-radius: var(--r-pill); white-space: nowrap; align-self: flex-start;
+}
+.tag-cjk { background: var(--bg-surface-3); color: var(--text-secondary); border: 1px solid var(--border-hairline); }
+.tag-latin { background: var(--bg-surface-3); color: var(--text-secondary); border: 1px solid var(--border-hairline); }
+.tag-system { background: var(--bg-surface-3); color: var(--text-secondary); border: 1px solid var(--border-hairline); }
+
+.card-tabs {
+  display: flex; gap: 4px; padding: 3px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-md); margin-bottom: var(--sp-md); width: fit-content;
+}
+.tab-btn {
+  font-family: inherit; font-size: 12px; font-weight: 500; letter-spacing: -0.01em;
+  padding: 5px 12px; background: transparent; color: var(--text-tertiary);
+  border: none; border-radius: var(--r-sm); cursor: pointer; transition: background 0.15s ease, color 0.15s ease;
+}
+.tab-btn:hover { color: var(--text-secondary); }
+.tab-btn.active { background: var(--bg-surface-3); color: var(--text-primary); }
+
+.card-body { position: relative; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.char-grid { display: flex; flex-direction: column; gap: var(--sp-sm); }
+.char-row { display: flex; align-items: baseline; gap: var(--sp-md); }
+.char-label {
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px; font-weight: 500; color: var(--text-quaternary);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  min-width: 80px; flex-shrink: 0; text-align: right; padding-top: 4px;
+}
+.char-value {
+  font-size: var(--sample-size); line-height: var(--sample-lh);
+  letter-spacing: -0.01em; color: var(--text-primary);
+  word-break: break-all; flex: 1;
+}
+.short-text { font-size: var(--sample-size); line-height: var(--sample-lh); letter-spacing: -0.01em; color: var(--text-primary); }
+.short-text + .short-text { margin-top: var(--sp-md); }
+.poem-block { font-size: var(--sample-size); line-height: var(--sample-lh); letter-spacing: -0.01em; color: var(--text-primary); white-space: pre-line; }
+.poem-block + .poem-block { margin-top: var(--sp-lg); padding-top: var(--sp-lg); border-top: 1px dashed var(--border-hairline); }
+
+.unavailable-badge {
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--sp-xs); padding: var(--sp-xl) var(--sp-lg); text-align: center;
+}
+.font-card.is-unavailable .unavailable-badge { display: flex; }
+.unavailable-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--bg-surface-3);
+  border: 1px solid var(--border-hairline);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700; color: var(--text-tertiary); margin-bottom: var(--sp-xs);
+}
+.unavailable-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.unavailable-desc { font-size: 12px; color: var(--text-tertiary); max-width: 420px; line-height: 1.5; }
+
+/* ===== 页脚 ===== */
+.footer { border-top: 1px solid var(--border-hairline); padding: var(--sp-xl) 0; margin-top: var(--sp-xxl); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-md); }
+.footer-text { font-size: 12px; color: var(--text-quaternary); letter-spacing: 0; }
+
+@media (max-width: 768px) {
+  :root { --sample-size: 20px; }
+  .page { padding: 0 var(--sp-md); }
+  .control-panel { padding: var(--sp-md); gap: var(--sp-sm); }
+  .font-card { padding: var(--sp-md); }
+  .char-label { min-width: 64px; font-size: 9px; }
+  .preview-section { padding: var(--sp-lg); }
+}
+@media (max-width: 480px) {
+  .topbar-inner { padding: 0 var(--sp-md); }
+  .topbar-title { font-size: 12px; }
+  .btn { font-size: 12px; padding: 6px 10px; }
+  .btn-icon { width: 30px; height: 30px; padding: 6px; }
+  .char-row { flex-direction: column; gap: 4px; }
+  .char-label { text-align: left; min-width: unset; }
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333333; border-radius: var(--r-pill); }
+::-webkit-scrollbar-thumb:hover { background: #555555; }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <div class="topbar-logo">Aa</div>
+      <span class="topbar-title">UI Design: Sans-serif Font</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" id="resetBtn">重置</button>
+      <button class="btn btn-ghost btn-icon" id="themeBtn" title="切换主题">
+        <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <!-- 控制面板 -->
+  <div class="control-panel">
+    <div class="control-group">
+      <span class="control-label">字号</span>
+      <input type="range" id="sizeSlider" min="14" max="64" value="28" step="1">
+      <span class="size-value" id="sizeValue">28px</span>
+    </div>
+    <div class="control-group">
+      <span class="control-label">行高</span>
+      <input type="range" id="lhSlider" min="1.0" max="2.4" value="1.6" step="0.05">
+      <span class="size-value" id="lhValue">1.60</span>
+    </div>
+  </div>
+
+  <!-- 实时预览区（锁定两行） -->
+  <div class="preview-section">
+    <div class="preview-header">
+      <span class="preview-title">实时预览</span>
+      <span class="preview-current" id="previewCurrent">Inter</span>
+    </div>
+    <div class="preview-text" id="previewText">
+      中国智造，惠及全球 · Shall I compare thee to a summer's day? 0123456789
+    </div>
+  </div>
+
+  <!-- 字体选择按钮 -->
+  <div class="font-selector" id="fontSelector"></div>
+
+  <!-- 字体卡片网格 -->
+  <div class="font-grid" id="fontGrid"></div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-text">Inter · Noto Sans SC · HarmonyOS Sans SC · MiSans · Roboto · Open Sans · Lato · Montserrat · Poppins · IBM Plex Sans · Work Sans · DM Sans · PingFang SC · Microsoft YaHei · 等线</span>
+      <span class="footer-text">悬停上方按钮实时切换字体</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ===== 字体数据 ===== */
+const FONTS = [
+  // 中文字体
+  { id: 'inter', name: 'Inter', desc: 'Rasmus Andersson · OFL-1.1 · 为屏幕而生', tag: 'latin', tagText: '拉丁', family: 'Inter', cssClass: 'family-inter', detect: 'web', weights: [300, 400, 500, 600, 700, 900] },
+  { id: 'noto', name: '思源黑体 / Noto Sans SC', desc: 'Adobe + Google · OFL-1.1 · 中文网页字体首选', tag: 'cjk', tagText: '中文', family: 'Noto Sans SC', cssClass: 'family-noto', detect: 'web', weights: [300, 400, 500, 700, 900] },
+  { id: 'harmony', name: 'HarmonyOS Sans SC', desc: '华为 + 汉仪 · 免费商用 · 现代中宫', tag: 'cjk', tagText: '中文', family: 'HarmonyOS Sans SC', cssClass: 'family-harmony', detect: 'web', weights: [300, 400, 500, 700, 900] },
+  { id: 'misans', name: 'MiSans', desc: '小米 + 蒙纳 + 汉仪 · 免费商用 · 字符集极大', tag: 'cjk', tagText: '中文', family: 'MiSans', cssClass: 'family-misans', detect: 'web', weights: [300, 400, 500, 700, 900] },
+  // 英文字体
+  { id: 'roboto', name: 'Roboto', desc: 'Christian Robertson · Apache-2.0', tag: 'latin', tagText: '拉丁', family: 'Roboto', cssClass: 'family-roboto', detect: 'web', weights: [400, 700] },
+  { id: 'open-sans', name: 'Open Sans', desc: 'Steve Matteson · Apache-2.0', tag: 'latin', tagText: '拉丁', family: 'Open Sans', cssClass: 'family-open-sans', detect: 'web', weights: [400, 700] },
+  { id: 'lato', name: 'Lato', desc: 'Łukasz Dziedzic · OFL-1.1', tag: 'latin', tagText: '拉丁', family: 'Lato', cssClass: 'family-lato', detect: 'web', weights: [400, 700] },
+  { id: 'montserrat', name: 'Montserrat', desc: 'Julieta Ulanovsky · OFL-1.1', tag: 'latin', tagText: '拉丁', family: 'Montserrat', cssClass: 'family-montserrat', detect: 'web', weights: [400, 700] },
+  { id: 'poppins', name: 'Poppins', desc: 'Indian Type Foundry · OFL-1.1', tag: 'latin', tagText: '拉丁', family: 'Poppins', cssClass: 'family-poppins', detect: 'web', weights: [400, 700] },
+  { id: 'ibm-plex-sans', name: 'IBM Plex Sans', desc: 'IBM · OFL-1.1', tag: 'latin', tagText: '拉丁', family: 'IBM Plex Sans', cssClass: 'family-ibm-plex-sans', detect: 'web', weights: [400, 700] },
+  { id: 'work-sans', name: 'Work Sans', desc: 'Wei Huang · OFL-1.1', tag: 'latin', tagText: '拉丁', family: 'Work Sans', cssClass: 'family-work-sans', detect: 'web', weights: [400, 700] },
+  { id: 'dm-sans', name: 'DM Sans', desc: 'Colophon Foundry · OFL-1.1', tag: 'latin', tagText: '拉丁', family: 'DM Sans', cssClass: 'family-dm-sans', detect: 'web', weights: [400, 700] },
+  // 系统字体
+  { id: 'pingfang', name: 'PingFang SC', desc: 'Apple 系统字体 · 仅 macOS / iOS 可用', tag: 'system', tagText: '系统', family: 'PingFang SC', cssClass: 'family-pingfang', detect: 'apple', weights: [300, 400, 500, 600, 700] },
+  { id: 'yahei', name: '微软雅黑 / Microsoft YaHei', desc: 'Windows 系统默认 · 仅 Windows 可用', tag: 'system', tagText: '系统', family: 'Microsoft YaHei', cssClass: 'family-yahei', detect: 'windows', weights: [300, 400, 700] },
+  { id: 'dengxian', name: '等线 / DengXian', desc: '方正设计 · MS Office 默认 · 含 Light 字重', tag: 'system', tagText: '系统', family: 'DengXian', cssClass: 'family-dengxian', detect: 'windows', weights: [300, 400, 700] },
+];
+
+const CONTENT = {
+  chars: {
+    az: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    azLower: 'abcdefghijklmnopqrstuvwxyz',
+    digits: '0123456789',
+    punct: '! @ # $ % ^ & * ( ) _ + - = [ ] { } | ; : \' " , . / < > ? ~ `',
+    cjkPunct: '， 。 、 ； ： ？ ！ “ ” ‘ ’ （ ） 【 】 《 》 〈 〉 — … ·',
+    cjkShort: '中国智造，惠及全球',
+  },
+  short: { cjk: '中国智造，惠及全球', en: "Shall I compare thee to a summer's day?" },
+  poem: {
+    en: `Shall I compare thee to a summer's day?
+Thou art more lovely and more temperate:
+Rough winds do shake the darling buds of May,
+And summer's lease hath all too short a date:
+Sometime too hot the eye of heaven shines,
+And often is his gold complexion dimm'd;
+And every fair from fair sometime declines,
+By chance or nature's changing course untrimm'd;
+But thy eternal summer shall not fade
+Nor lose possession of that fair thou ow'st;
+Nor shall Death brag thou wander'st in his shade,
+When in eternal lines to time thou grow'st:
+So long as men can breathe or eyes can see,
+So long lives this, and this gives life to thee.`,
+    zh: `我能否将你比作夏日？
+你却比夏日更可爱温婉：
+狂风会摇落五月的嫩芽，
+夏天的期限又未免太短：
+有时天眼照耀得过于灼热，
+它金色的容颜又常常暗淡；
+一切美有时都会凋零，
+被机缘或自然的代谢摧残；
+但你永恒的夏天不会消逝，
+也不会失去你所拥有的美；
+死神不能夸口你在他的阴影里徘徊，
+当你在不朽的诗行里与时间同长：
+只要人类还能呼吸，眼睛还能看，
+这诗就将长存，并赐你生命。`,
+  },
+};
+
+const state = { weights: {}, previewFontId: 'inter' };
+FONTS.forEach(f => { state.weights[f.id] = 400; });
+
+function $ (sel, ctx) { return (ctx || document).querySelector(sel); }
+function $$ (sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
+function escapeHtml (str) { return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+/* ===== 字体检测 ===== */
+const FontDetector = (function () {
+  function isApple () {
+    const ua = navigator.userAgent || '', pf = navigator.platform || '';
+    return /Mac|iPhone|iPad|iPod/.test(pf) || /Macintosh|iPhone|iPad|iPod/.test(ua);
+  }
+  function isWindows () {
+    const ua = navigator.userAgent || '', pf = navigator.platform || '';
+    return /Win/.test(pf) || /Windows/.test(ua);
+  }
+  async function detectWeb (family, weight = 400) {
+    try {
+      if (document.fonts && document.fonts.load) {
+        await document.fonts.load(`${weight} 16px "${family}"`);
+        if (document.fonts.check(`${weight} 16px "${family}"`)) return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+  return { isApple, isWindows, detectWeb };
+})();
+
+/* ===== 渲染字体卡片 ===== */
+function renderFontCard (font) {
+  const card = document.createElement('div');
+  card.className = `font-card ${font.cssClass}`;
+  card.dataset.fontId = font.id;
+  const labels = { 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'Semibold', 700: 'Bold', 900: 'Black' };
+  const opts = font.weights.map(w => `<option value="${w}" ${w === 400 ? 'selected' : ''}>${labels[w] || w}</option>`).join('');
+
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="font-info">
+        <div class="font-name">${escapeHtml(font.name)}</div>
+        <div class="font-desc">${escapeHtml(font.desc)}</div>
+      </div>
+      <div class="card-actions">
+        <span class="font-tag tag-${font.tag}">${font.tagText}</span>
+        <select class="weight-select" data-weight-for="${font.id}">${opts}</select>
+      </div>
+    </div>
+    <div class="card-tabs">
+      <button class="tab-btn active" data-tab="chars">字符集</button>
+      <button class="tab-btn" data-tab="short">短文</button>
+      <button class="tab-btn" data-tab="poem">十四行诗</button>
+    </div>
+    <div class="card-body">
+      <div class="tab-panel active" data-panel="chars">
+        <div class="char-grid">
+          <div class="char-row"><span class="char-label">A-Z</span><span class="char-value">${CONTENT.chars.az}</span></div>
+          <div class="char-row"><span class="char-label">a-z</span><span class="char-value">${CONTENT.chars.azLower}</span></div>
+          <div class="char-row"><span class="char-label">0-9</span><span class="char-value">${CONTENT.chars.digits}</span></div>
+          <div class="char-row"><span class="char-label">Punctuation</span><span class="char-value">${escapeHtml(CONTENT.chars.punct)}</span></div>
+          <div class="char-row"><span class="char-label">中文标点</span><span class="char-value">${CONTENT.chars.cjkPunct}</span></div>
+          <div class="char-row"><span class="char-label">中文短句</span><span class="char-value">${CONTENT.chars.cjkShort}</span></div>
+        </div>
+      </div>
+      <div class="tab-panel" data-panel="short">
+        <div class="short-text">${CONTENT.short.cjk}</div>
+        <div class="short-text">${escapeHtml(CONTENT.short.en)}</div>
+      </div>
+      <div class="tab-panel" data-panel="poem">
+        <div class="poem-block">${escapeHtml(CONTENT.poem.en)}</div>
+        <div class="poem-block">${CONTENT.poem.zh}</div>
+      </div>
+    </div>
+    <div class="unavailable-badge">
+      <div class="unavailable-icon">!</div>
+      <div class="unavailable-title">字体不可用</div>
+      <div class="unavailable-desc" data-unavailable-desc>当前环境未能加载该字体。</div>
+    </div>`;
+  return card;
+}
+
+function renderAllFonts () {
+  const grid = $('#fontGrid');
+  grid.innerHTML = '';
+  FONTS.forEach(f => grid.appendChild(renderFontCard(f)));
+}
+
+function applyWeightToCard (fontId, weight) {
+  state.weights[fontId] = Number(weight);
+  const card = $(`.font-card[data-font-id="${fontId}"]`);
+  if (!card) return;
+  $$('.char-value, .short-text, .poem-block', card).forEach(el => { el.style.fontWeight = weight; });
+}
+
+/* ===== 渲染字体选择按钮 ===== */
+function renderFontSelector () {
+  const sel = $('#fontSelector');
+  sel.innerHTML = '';
+  FONTS.forEach(font => {
+    const chip = document.createElement('button');
+    chip.className = 'font-chip';
+    chip.textContent = font.name;
+    chip.dataset.fontId = font.id;
+    chip.addEventListener('mouseenter', () => {
+      if (chip.classList.contains('is-unavailable')) return;
+      state.previewFontId = font.id;
+      const preview = $('#previewText');
+      preview.style.fontFamily = font.family + ', ' + getComputedStyle(document.documentElement).getPropertyValue('--font-system');
+      $('#previewCurrent').textContent = font.name;
+      $$('.font-chip').forEach(c => c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+    });
+    sel.appendChild(chip);
+  });
+}
+
+/* ===== 事件绑定 ===== */
+function bindCardEvents () {
+  document.addEventListener('change', e => {
+    const sel = e.target.closest('.weight-select');
+    if (sel) applyWeightToCard(sel.dataset.weightFor, sel.value);
+  });
+  document.addEventListener('click', e => {
+    const tab = e.target.closest('.tab-btn');
+    if (tab) {
+      const card = tab.closest('.font-card');
+      const n = tab.dataset.tab;
+      $$('.tab-btn', card).forEach(b => b.classList.toggle('active', b === tab));
+      $$('.tab-panel', card).forEach(p => p.classList.toggle('active', p.dataset.panel === n));
+    }
+  });
+}
+
+function bindGlobalControls () {
+  $('#sizeSlider').addEventListener('input', e => {
+    document.documentElement.style.setProperty('--sample-size', e.target.value + 'px');
+    $('#sizeValue').textContent = e.target.value + 'px';
+  });
+  $('#lhSlider').addEventListener('input', e => {
+    document.documentElement.style.setProperty('--sample-lh', e.target.value);
+    $('#lhValue').textContent = parseFloat(e.target.value).toFixed(2);
+  });
+  let isDark = true;
+  $('#themeBtn').addEventListener('click', () => {
+    isDark = !isDark;
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      $('#iconMoon').style.display = ''; $('#iconSun').style.display = 'none';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      $('#iconMoon').style.display = 'none'; $('#iconSun').style.display = '';
+    }
+    try { localStorage.setItem('tf-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  });
+  try {
+    if (localStorage.getItem('tf-theme') === 'light') {
+      isDark = false;
+      document.documentElement.setAttribute('data-theme', 'light');
+      $('#iconMoon').style.display = 'none'; $('#iconSun').style.display = '';
+    }
+  } catch (e) {}
+  $('#resetBtn').addEventListener('click', () => {
+    $('#sizeSlider').value = 28; $('#lhSlider').value = 1.6;
+    document.documentElement.style.setProperty('--sample-size', '28px');
+    document.documentElement.style.setProperty('--sample-lh', '1.6');
+    $('#sizeValue').textContent = '28px'; $('#lhValue').textContent = '1.60';
+    FONTS.forEach(f => {
+      state.weights[f.id] = 400; applyWeightToCard(f.id, 400);
+      const sel = $(`.weight-select[data-weight-for="${f.id}"]`);
+      if (sel) sel.value = 400;
+    });
+    // 重置预览为 Inter
+    state.previewFontId = 'inter';
+    const preview = $('#previewText');
+    const interFont = FONTS.find(f => f.id === 'inter');
+    preview.style.fontFamily = interFont.family + ', ' + getComputedStyle(document.documentElement).getPropertyValue('--font-system');
+    $('#previewCurrent').textContent = interFont.name;
+    $$('.font-chip').forEach(c => c.classList.remove('is-active'));
+    const firstChip = $(`.font-chip[data-font-id="inter"]`);
+    if (firstChip && !firstChip.classList.contains('is-unavailable')) firstChip.classList.add('is-active');
+  });
+}
+
+/* ===== 字体检测 ===== */
+let detecting = false;
+async function runFontDetection (force = false) {
+  if (detecting && !force) return;
+  detecting = true;
+
+  $$('.font-card').forEach(card => { card.classList.remove('is-unavailable'); });
+  $$('.font-chip').forEach(chip => { chip.classList.remove('is-unavailable', 'is-active'); });
+
+  await new Promise(r => setTimeout(r, 50));
+
+  for (const font of FONTS) {
+    let ok = true, reason = '';
+    if (font.detect === 'web') {
+      ok = await FontDetector.detectWeb(font.family, 400);
+      if (!ok) reason = `当前环境未能加载 ${font.name}。请检查网络或 CDN。`;
+    } else if (font.detect === 'apple') {
+      ok = FontDetector.isApple();
+      if (!ok) reason = `${font.name} 是 Apple 系统内置字体，仅 macOS / iOS 可用。`;
+    } else if (font.detect === 'windows') {
+      ok = FontDetector.isWindows();
+      if (!ok) reason = `${font.name} 是 Windows 系统内置字体，仅 Windows 可用。`;
+    }
+
+    const card = $(`.font-card[data-font-id="${font.id}"]`);
+    const chip = $(`.font-chip[data-font-id="${font.id}"]`);
+    if (!ok) {
+      if (card) {
+        card.classList.add('is-unavailable');
+        const d = card.querySelector('[data-unavailable-desc]');
+        if (d) d.textContent = reason;
+      }
+      if (chip) chip.classList.add('is-unavailable');
+    } else {
+      applyWeightToCard(font.id, state.weights[font.id]);
+    }
+  }
+
+  const interChip = $(`.font-chip[data-font-id="inter"]`);
+  if (interChip && !interChip.classList.contains('is-unavailable')) {
+    interChip.classList.add('is-active');
+    state.previewFontId = 'inter';
+    const interFont = FONTS.find(f => f.id === 'inter');
+    const preview = $('#previewText');
+    preview.style.fontFamily = interFont.family + ', ' + getComputedStyle(document.documentElement).getPropertyValue('--font-system');
+    $('#previewCurrent').textContent = interFont.name;
+  }
+
+  detecting = false;
+}
+
+/* ===== 初始化 ===== */
+(async function init () {
+  renderAllFonts();
+  renderFontSelector();
+  bindCardEvents();
+  bindGlobalControls();
+
+  const interFont = FONTS.find(f => f.id === 'inter');
+  const preview = $('#previewText');
+  preview.style.fontFamily = interFont.family + ', ' + getComputedStyle(document.documentElement).getPropertyValue('--font-system');
+  $('#previewCurrent').textContent = interFont.name;
+
+  if (document.fonts && document.fonts.ready) {
+    try { await document.fonts.ready; } catch (e) {}
+  }
+  await new Promise(r => setTimeout(r, 300));
+  runFontDetection();
+})();
+</script>
+
+</body>
+</html>
