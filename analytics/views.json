@@ -177,9 +177,10 @@
     ]
   },
   "reference:Fft": {
-    "count": 1,
+    "count": 2,
     "ips": [
-      "4a449ea897cef4cd2ff5625a534e77ea0bff248d03dd181979feaa10ab1c0095"
+      "4a449ea897cef4cd2ff5625a534e77ea0bff248d03dd181979feaa10ab1c0095",
+      "dd61c6ede376dcfae45118972f4afcf7cd16912639c673e0d4db0c4d7bd61325"
     ]
   }
 }
