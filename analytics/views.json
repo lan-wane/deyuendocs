@@ -26,12 +26,13 @@
     ]
   },
   "copyright": {
-    "count": 4,
+    "count": 5,
     "ips": [
       "dacc8838ed78bf6ce54c1cfa8569b28446c6f69cccf3de097937758576d05df3",
       "4b6fdf3d407f22816a248b670128c96eff140c43d4ac6701ceec042d620b67e5",
       "e76be04489454f612bff906e4aadb18b747343c3496be5e8978e288759c33c9d",
-      "5d4ef2d61c27acd16317a5b92c2386ab34b3ed2c299a735823af8de0436c4cfa"
+      "5d4ef2d61c27acd16317a5b92c2386ab34b3ed2c299a735823af8de0436c4cfa",
+      "dd61c6ede376dcfae45118972f4afcf7cd16912639c673e0d4db0c4d7bd61325"
     ]
   },
   "rules:admin": {
