@@ -143,9 +143,10 @@
     ]
   },
   "users@末言:index": {
-    "count": 1,
+    "count": 2,
     "ips": [
-      "4b6fdf3d407f22816a248b670128c96eff140c43d4ac6701ceec042d620b67e5"
+      "4b6fdf3d407f22816a248b670128c96eff140c43d4ac6701ceec042d620b67e5",
+      "4a449ea897cef4cd2ff5625a534e77ea0bff248d03dd181979feaa10ab1c0095"
     ]
   },
   "users@老武汉:index": {
