@@ -156,9 +156,10 @@
     ]
   },
   "users@老武汉:index": {
-    "count": 1,
+    "count": 2,
     "ips": [
-      "ac2788392ed7c81bffd5b0bc458f1621d9be53bd0e3229f0c89656b83347922f"
+      "ac2788392ed7c81bffd5b0bc458f1621d9be53bd0e3229f0c89656b83347922f",
+      "b9cd1a0982c542ef8709f13d778d0b58a4c63960e4571b9b3fe65f6ab4927105"
     ]
   },
   "users@秋半序.:index": {
