@@ -175,9 +175,10 @@
     ]
   },
   "users@小喜喵123:index": {
-    "count": 1,
+    "count": 2,
     "ips": [
-      "dd61c6ede376dcfae45118972f4afcf7cd16912639c673e0d4db0c4d7bd61325"
+      "dd61c6ede376dcfae45118972f4afcf7cd16912639c673e0d4db0c4d7bd61325",
+      "b9cd1a0982c542ef8709f13d778d0b58a4c63960e4571b9b3fe65f6ab4927105"
     ]
   },
   "reference:Fft": {
