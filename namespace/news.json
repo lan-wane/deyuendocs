@@ -1,11 +1,12 @@
 {
   "name": "news",
-  "label": "news",
-  "description": "",
-  "icon": "fas fa-folder",
+  "label": "德源新闻",
+  "description": "DeSoucre 新闻",
+  "icon": "fas fa-newspaper",
   "order": 99,
   "hidden": false,
   "extensions": [
     ".md"
-  ]
+  ],
+  "protect": false
 }
