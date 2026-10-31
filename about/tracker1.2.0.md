@@ -1,5 +1,5 @@
 ---
-title: v1.2.0 更新日志
+title: Tracker v1.2.0 更新日志
 description: DeSource Bug Tracker v1.2.0 更新日志
 tags: changelog
 author: DeSource Admin Team
