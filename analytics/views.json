@@ -236,9 +236,10 @@
     ]
   },
   "about:v1.8.0": {
-    "count": 1,
+    "count": 2,
     "ips": [
-      "f98829fae0c8d9c9406b58ab7dd999ca55e69864b7539eb7eb25047da81aaab4"
+      "f98829fae0c8d9c9406b58ab7dd999ca55e69864b7539eb7eb25047da81aaab4",
+      "fa3d0ae0293df4c60b81aa0cc8188b449db823439b31f4178f483281a70b11aa"
     ]
   },
   "about:tracker1.2.0": {
