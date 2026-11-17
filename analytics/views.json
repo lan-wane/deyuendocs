@@ -31,7 +31,7 @@
     ]
   },
   "copyright": {
-    "count": 8,
+    "count": 9,
     "ips": [
       "dacc8838ed78bf6ce54c1cfa8569b28446c6f69cccf3de097937758576d05df3",
       "4b6fdf3d407f22816a248b670128c96eff140c43d4ac6701ceec042d620b67e5",
@@ -40,7 +40,8 @@
       "dd61c6ede376dcfae45118972f4afcf7cd16912639c673e0d4db0c4d7bd61325",
       "a74ed6222d5a51c2275468693b996125aa1869e0a6181396cd92598236a0cedc",
       "f98829fae0c8d9c9406b58ab7dd999ca55e69864b7539eb7eb25047da81aaab4",
-      "6a2ea3d2c3af327116acc8dfcc8c749a8ac8b3c061105470cfbaff31a0b8b204"
+      "6a2ea3d2c3af327116acc8dfcc8c749a8ac8b3c061105470cfbaff31a0b8b204",
+      "9ae0f5dd70193557362a104396acd025d7900192608dc9028b5520093a23f5fc"
     ]
   },
   "rules:admin": {
