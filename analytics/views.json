@@ -47,11 +47,12 @@
     ]
   },
   "rules:admin": {
-    "count": 3,
+    "count": 4,
     "ips": [
       "dacc8838ed78bf6ce54c1cfa8569b28446c6f69cccf3de097937758576d05df3",
       "e76be04489454f612bff906e4aadb18b747343c3496be5e8978e288759c33c9d",
-      "0180fbb7ab717a8280cb1b5a1f4b840ef5df8433bc0859dd6ea1807732eff59f"
+      "0180fbb7ab717a8280cb1b5a1f4b840ef5df8433bc0859dd6ea1807732eff59f",
+      "6d22d92335e4fa82a20c3f584820d107212a33ed6a552fba9372c5ccc41d5418"
     ]
   },
   "docs:index": {
